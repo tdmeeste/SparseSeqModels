@@ -22,8 +22,7 @@ The code was developed on Python 3.6.4, with pytorch 0.4.0 (CUDA V8.0, CuDNN 6.0
 The code is not heavily documented. I've cleaned it a little, but it's still dynamically grown research code (you know what I mean).
 I'll be happy to provide more detailed descriptions if needed.
 Don't hesitate to drop me an email if you have any questions:
-
-<img src="https://tdmeeste.github.io/images/email.png" width="100px"/>
+<img src="https://tdmeeste.github.io/images/email.png" width="300px"/>
 
 
 ## Language modeling experiments
@@ -41,7 +40,7 @@ and to keep the analysis untangled, we only ran experiments for AWD-LSTM with a 
 
 #### Baseline AWD-LSTM
 The baseline can be run from the language_modeling folder as follows (after downloading the data by running `getdata.sh`):
-```python
+```console
 python main.py --seed 0 --save logs/awd-lstm
 python finetune --save logs/awd-lstm
 ```
@@ -51,20 +50,20 @@ The result, averaged over different seeds, is given in Table 1 in the paper.
 
 The sparse model with wider middle LSTM layer (1725 dimensions instead of 1150) but predefined sparseness to maintain
 the same number of recurrent layer parameters (also see Table 1) can be run with
-```python
+```console
 python main.py --sparse_mode sparse_hidden --sparse_fract 0.66666 --nhid 1725 --save logs/awd-lstm-sparse
 python finetune.py --sparse_mode sparse_hidden --sparse_fract 0.66666 --nhid 1725 --save logs/awd-lstm-sparse
 ```
 
 Finally, the *learning to recite* experiments can be run as follows.
 The baseline with original dimensions and 24M parameters can be run with
-```python
+```console
 python main_overfit.py --save logs/awd-lstm-overfit-dense --epochs 150 --lr 5
 ```
 where `main_overfit.py` is based on `main.py` and `args.py` in which for this particular
 experiment all regularization parameters are set to 0.
 The different setups with 7.07M unknowns in Table 3 can be run as follows
-```python
+```console
 python main_overfit.py --save logs/awd-lstm-overfit-dense_reduced --emsize 200 --nhid 575 --epochs 150 --lr 5
 python main_overfit.py --save logs/awd-lstm-overfit-sparse1 --emsize 200 --sparse_mode sparse_hidden --sparse_fract 0.5 --epochs 150 --lr 5
 python main_overfit.py --save logs/awd-lstm-overfit-sparse2 --emblocks 10 --emdensity 0.5 --sparse_mode sparse_all --sparse_fract 0.5 --epochs 150 --lr 5
@@ -82,19 +81,19 @@ The POS tagging baseline is based on code contributed by [Frederic Godin](https:
 
 Dense model with reduced dimensions (Fig. 3), e.g., for embedding size 5, for one particular setting of the
 regularization parameters (reported results were averaged over multiple random seeds, and tuned over a grid of hyperparameters)
-```python
+```console
 python main.py --emsize 5 --nhid 10 --epochs 50 --dropouti 0.2 --wdrop 0.2 --save logs/pos_dense
 ```
 
 The counterpart with predefined sparse embedding layer (note that the vocab is sorted by default)
-```python
+```console
 python main.py --emsize 20 --emb_density 0.25 --emb_blocks 20 --nhid 10 --epochs 50 --dropouti 0.2 --wdrop 0.2 --save logs/pos_sparse
 ```
 
 Finally, vocabulary sorting can be influenced with the flag `vocab_order`.
 Simulating the effect of inversing the vocabulary order (such that predefined sparseness in the embedding layer
 corresponds to shorter embeddings for more frequent terms, rather than the proposed ordering) can be done for instance as
-```python
+```console
 python main.py --emsize 20 --emb_density 0.25 --emb_blocks 20 --nhid 10 --epochs 50 --dropouti 0.2 --wdrop 0.2 --vocab_order down --save logs/pos_sparse_vocab_down
 ```
 
