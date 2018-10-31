@@ -1,6 +1,6 @@
 # Predefined Sparseness in Recurrent Sequence Models
 
-This repository contains code to run the exeriments presented in our paper `Predefined Sparseness in Recurrent Sequence Models`,
+This repository contains code to run the exeriments presented in our paper [Predefined Sparseness in Recurrent Sequence Models](https://arxiv.org/abs/1808.08720),
 presented at CoNLL 2018.
 The package `sparse_seq` contains the implementation of predefined sparse LSTM's and embedding layers, as described in that paper.
 - **rnn.py**: contains *SparseLSTM*, a pytorch module that allows composing a sparse single-layer LSTM based on elementary dense LSTM's,
